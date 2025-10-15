@@ -28,13 +28,14 @@ def get_temp_statistics(latitude, longitude, start_date, end_date):
     response.raise_for_status()
     temperature_value = response.json()['hourly']['temperature_2m']
     tempеrature_date = response.json()['hourly']['time']
-    global df
     df = pd.DataFrame(list(zip(tempеrature_date, temperature_value)), columns =['date', 'temp'])
     return df
 
 
 def get_graph(df):
     chart = df.plot(x='date', y='temp', kind='line')
+    plt.xlabel('Дата')
+    plt.ylabel('Температура (°C)')
     plt.show()
 
 
@@ -44,8 +45,7 @@ def main():
     start_date = '2025-10-01'
     end_date = '2025-10-06'
     latitude, longitude = get_coordinates(city_name, country_code)
-    get_temp_statistics(latitude, longitude, start_date, end_date)
-    print(get_temp_statistics(latitude, longitude, start_date, end_date))
+    df = get_temp_statistics(latitude, longitude, start_date, end_date)
     get_graph(df)
 
 
