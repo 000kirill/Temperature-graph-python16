@@ -8,8 +8,12 @@ def get_coordinates(city_name, country_code):
     url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-postal-code@public/records"
     payload = {
     "limit": limit,
-    "where": {f'place_name: "{city_name}" and country_code: "{country_code}"'},
+    "where": {
+        f'place_name: "{city_name}"'
+        f'and country_code: "{country_code}"'
+        }
     }
+
     response = requests.get(url, params=payload)
     response.raise_for_status()
     total_count = response.json()['total_count']
