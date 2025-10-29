@@ -7,10 +7,10 @@ def get_coordinates(city_name, country_code):
     limit = 20
     url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-postal-code@public/records"
     payload = {
-    "limit": limit,
-    "where": {
-        f'place_name: "{city_name}"'
-        f'and country_code: "{country_code}"'
+        "limit": limit,
+        "where": {
+            f'place_name: "{city_name}"'
+            f'and country_code: "{country_code}"'
         }
     }
 
