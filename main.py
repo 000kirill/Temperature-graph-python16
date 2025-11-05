@@ -1,16 +1,17 @@
 import requests
 import pandas as pd
 from matplotlib import pyplot as plt
+import argparse
 
 
-def get_coordinates(city_name, country_code):
+def get_coordinates(args):
     limit = 20
     url = "https://data.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-postal-code@public/records"
     payload = {
         "limit": limit,
         "where": {
-            f'place_name: "{city_name}"'
-            f'and country_code: "{country_code}"'
+            f'place_name: "{args.city_name}"'
+            f'and country_code: "{args.country_code}"'
         }
     }
 
@@ -24,13 +25,13 @@ def get_coordinates(city_name, country_code):
     return results['latitude'], results['longitude']
 
 
-def get_temp_statistics(latitude, longitude, start_date, end_date):
+def get_temp_statistics(latitude, longitude, args):
     url = "https://archive-api.open-meteo.com/v1/era5"
     payload = {
         "latitude" : latitude,
         "longitude" : longitude,
-        "start_date" : start_date,
-        "end_date" : end_date,
+        "start_date" : args.start_date,
+        "end_date" : args.end_date,
         "hourly": "temperature_2m"
     }
     response = requests.get(url, params=payload)
@@ -49,12 +50,15 @@ def get_graph(df):
 
 
 def main():
-    city_name = "Minsk"
-    country_code = "BY"
-    start_date = '2025-10-01'
-    end_date = '2025-10-06'
-    latitude, longitude = get_coordinates(city_name, country_code)
-    df = get_temp_statistics(latitude, longitude, start_date, end_date)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('city_name', help='Название города (например: Minsk)', default='Minsk')
+    parser.add_argument('country_code', help='Код страны (например: BY)', default='BY')
+    parser.add_argument('start_date', help='Дата начала в формате YYYY-MM-DD', default='2025-10-01')
+    parser.add_argument('end_date', help='Дата окончания в формате YYYY-MM-DD', default='2025-10-06')
+    args = parser.parse_args()
+    
+    latitude, longitude = get_coordinates(args)
+    df = get_temp_statistics(latitude, longitude, args)
     get_graph(df)
 
 
