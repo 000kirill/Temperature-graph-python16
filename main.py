@@ -51,10 +51,10 @@ def get_graph(df):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('city_name', help='Название города (например: Minsk)', default='Minsk')
-    parser.add_argument('country_code', help='Код страны (например: BY)', default='BY')
-    parser.add_argument('start_date', help='Дата начала в формате YYYY-MM-DD', default='2025-10-01')
-    parser.add_argument('end_date', help='Дата окончания в формате YYYY-MM-DD', default='2025-10-06')
+    parser.add_argument('--city_name', help='Название города (например: Minsk)', default='Minsk')
+    parser.add_argument('--country_code', help='Код страны (например: BY)', default='BY')
+    parser.add_argument('--start_date', help='Дата начала в формате YYYY-MM-DD', default='2025-10-01')
+    parser.add_argument('--end_date', help='Дата окончания в формате YYYY-MM-DD', default='2025-10-06')
     args = parser.parse_args()
     
     latitude, longitude = get_coordinates(args)
@@ -63,4 +63,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
